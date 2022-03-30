@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="4498ce4a-45f2-429e-ab88-24cbf8006dba" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="mule-basicFlow" doc:id="f6de556d-944c-422d-a9f2-b629fa4bf484" >
+		<http:listener doc:name="Listener" doc:id="5ff9cb4f-24be-4ca4-89aa-022bcb34dda4" config-ref="HTTP_Listener_config" path="/hello/{city}"/>
+		<set-variable value="#[attributes.uriParams.city]" doc:name="city" doc:id="167f3f4e-6ba9-4bf7-9dd7-7632f064ffee" variableName="city"/>
+		<set-payload value='#["Hello"  ++ attributes.queryParams.name as String ++ "  "++ "City:"++ attributes.uriParams.city]' doc:name="name" doc:id="7f8f47c1-d928-4fb8-8e17-aeeb59809a0e" />
+		<logger level="INFO" doc:name="Logger" doc:id="b4f86353-1122-4e11-a2e5-c3a1c3975573" message="#[payload]"/>
+	</flow>
+</mule>
